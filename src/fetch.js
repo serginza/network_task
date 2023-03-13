@@ -1,107 +1,113 @@
-const baseUrl = 'https://intership-liga.ru';
-
-// const getPost = async () => {
-// 	try {
-// 		const res = await fetch(`${baseUrl}/tasks`);
-// 		console.log("All posts is got!", tasks);
-// 	} catch (err) {
-// 		console.log("Error of getting data!")
-// 	}
-// }
-
-//Данные для запросов
-const post25 = {
-	name: "post 25",
-	info: "test post",
-	isImportant: false,
-	isCompleted: true,
-	id: 25,
-};
-
-const post25patch = {
-	name: "post 25(patched)",
-	info: "test patch",
-	isImportant: false,
-	isCompleted: true,
-	id: 25,
-};
-
-const post26 = {
-	name: "post 26",
-	info: "test post2",
-	isImportant: true,
-	isCompleted: true,
-	id: 26,
-};
+const baseUrl = "https://intership-liga.ru";
 
 //GET-запрос
 async function getPosts() {
-	await fetch(baseUrl + '/tasks', {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json'
+	try {
+		const res = await fetch(baseUrl + "/tasks", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			},
+		})
+		if (res.ok) {
+			const result = await res.json();
+			console.log("All posts are received!" , result);
+		} else {
+			throw new Error("Error");
 		}
-	})
-	.then((res) => res.json())
-	.then((res) => console.log("All posts is got!" , res))
-	.catch((err) => console.log("Error of getting data!", err));
-};
-
-//POST-запрос
-async function addPost(taskId) {
-	return fetch(baseUrl + '/tasks', {
-		method: 'POST',
-		body: JSON.stringify(taskId),
-		headers: {
-			'Content-Type': 'application/json'
-		},
-	})
-	.then((res) => res.json())
-	.then((res) => console.log(`Data id = ${taskId.id} is posted!` , res))
-	.catch((err) => console.log("Error of posting data!", err));
+	} catch(err) {
+		console.log("Error of receiving data!", err)
+	};
 };
 
 //PATCH-запрос
 async function patchPost(taskId) {
-	return fetch(baseUrl + `/tasks/${taskId.id}`, {
-		method: 'PATCH',
-		body: JSON.stringify(taskId),
-		headers: {
-			'Content-Type': 'application/json'
-		},
-	})
-	.then((res) => res.json())
-	.then((res) => console.log(`Data id = ${taskId.id} is patched!` , res))
-	.catch((err) => console.log("Error of patching data!", err));
+	try {
+		const res = await fetch(baseUrl + `/tasks/${taskId}`, {
+			method: "PATCH",
+			body: JSON.stringify({
+				name: "post 25(patched)",
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+		if (res.ok) {
+			const result = await res.json();
+			console.log(`Data id = ${taskId} were changed!` , result);
+		} else {
+			throw new Error("Error");
+		}
+	} catch(err) {
+		console.log("Error of changing data!", err)
+	};
 };
 
 //DELETE-запрос
 async function delPost(taskId) {
-	return fetch(baseUrl + `/tasks/${taskId.id}`, {
-		method: 'DELETE',
-		// body: JSON.stringify(post),
-		headers: {
-			'Content-Type': 'application/json'
+	try {
+		const res = await fetch(baseUrl + `/tasks/${taskId}`, {
+			method: 'DELETE',
+			// body: JSON.stringify(post),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+		if (res.ok) {
+			const result = await res.json();
+			console.log(`Data id = ${taskId} were deleted!`, result);
+		} else {
+			throw new Error("Error");
 		}
-	})
-	.then((res) => res.json())
-	.then((res) => console.log(`Data id = ${taskId.id} is deleted!` , res))
-	.catch((err) => console.log("Error of deleting data!", err));
+	} catch(err) {
+		console.log("Error of deleting data!", err)
+	};
 };
 
 //GET-запрос (один объект)
 async function getPost(taskId) {
 	try {
-		return await fetch(baseUrl + `/tasks/${taskId}`)
-			.then((res) => res.json())
-			.then((res) => console.log(`Data id = ${taskId} is got!` , res))
-		} catch {
-			(err) => console.log("Error of getting data!", err);
-	}
+		const res = await fetch(baseUrl + `/tasks/${taskId}`)
+		if (res.ok) {
+			const result = await res.json();
+			console.log(`Data id = ${taskId} are received!`, result);
+		} else {
+			throw new Error("Error");
+		}
+	} catch(err) {
+		console.log("Error of getting data!", err)
+	};
+};
+
+//POST-запрос
+async function addPost(taskId) {
+	try {
+		const res = await fetch(baseUrl + "/tasks", {
+			method: "POST",
+			body: JSON.stringify({
+				name: "post 25",
+				info: "test post",
+				isImportant: false,
+				isCompleted: true,
+				id: 25,
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		});
+		if (res.ok) {
+			const result = await res.json();
+			console.log(`Data id = ${taskId} were posted!` , result);
+		} else {
+			throw new Error("Error");
+		}
+	} catch(err) {
+		console.log("Error of posting data!", err)
+	};
 };
 
 getPost(1);
-//patchPost(post25patch);
-//delPost(post25);
+patchPost(25);
+delPost(25);
 getPosts();
-//addPost(post25);
+addPost(25);
