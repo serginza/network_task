@@ -1,5 +1,4 @@
 const baseUrl = "https://intership-liga.ru";
-const imgUrl = "https://dog.ceo/api/breeds/image/random";
 
 //объект для запросов
 const post25 = {
@@ -22,9 +21,15 @@ function getPosts() {
 			xhr.send();
 			xhr.responseType = "json";
 		})
-		.then((result) => console.log("All posts are recieved!", result));
+		.then(function(result) {
+			if (Object.entries(result).length !== 0) {
+				console.log("All posts are recieved!", result);
+			} else {
+				throw new Error("Error of receiving data!");
+			}
+		});
 	} catch(err) {
-		console.log("Error of receiving data!", err)
+		console.log("Error of receiving data!", err);
 	};
 };
 
@@ -40,23 +45,40 @@ function getPost(taskId) {
 			xhr.send();
 			xhr.responseType = "json";
 		})
-		.then((result) => console.log(`Data id = ${taskId} are received!`, result));
+		.then(function(result) {
+			if (Object.entries(result).length !== 0) {
+				console.log(`Data id = ${taskId} are received!`, result);
+			} else {
+				throw new Error("Error of receiving requested data!");
+			}
+		});
 	} catch(err) {
-		console.log("Error of receiving data!", err)
+		console.log("Error of receiving requested data!", err);
 	};
 };
 
 //POST-запрос
 function addPost() {
-	return new Promise((resolve, reject) => {
-		const xhr = new XMLHttpRequest();
-		xhr.open("POST", baseUrl + "/tasks");
-		xhr.setRequestHeader('Content-Type', "application/json");
-		xhr.onload = () => resolve(xhr.response);
-		xhr.onerror = () => reject(xhr.status);
-		xhr.send(JSON.stringify(post25));
-		xhr.responseType = "json";
-	});
+	try {
+		return new Promise((resolve, reject) => {
+			const xhr = new XMLHttpRequest();
+			xhr.open("POST", baseUrl + "/tasks");
+			xhr.setRequestHeader('Content-Type', "application/json");
+			xhr.onload = () => resolve(xhr.response);
+			xhr.onerror = () => reject(xhr.status);
+			xhr.send(JSON.stringify(post25));
+			xhr.responseType = "json";
+		})
+		.then(function(result) {
+			if (Object.entries(result).length !== 0) {
+				console.log(`Data id = ${post25.id} were posted!`, result);
+			} else {
+				throw new Error("Error of posting data!");
+			}
+		});
+	} catch(err) {
+		console.log("Error of posting data!", err);
+	};
 };
 
 //DELETE-запрос
@@ -66,14 +88,20 @@ function delPost(taskId) {
 			const xhr = new XMLHttpRequest();
 			xhr.open("DELETE", baseUrl + `/tasks/${taskId}`);
 			xhr.setRequestHeader('Content-Type', "application/json");
-			xhr.onload = () => resolve(xhr.response);
+			xhr.onload = function() {
+				if (xhr.readyState == 4 && xhr.status == "200") {
+					resolve(xhr.response);
+				} else {
+					console.error("Error of deleting data");
+				};
+			};
 			xhr.onerror = () => reject(xhr.status);
 			xhr.send();
 			xhr.responseType = "json";
 		})
 		.then((result) => console.log(`Data id = ${taskId} were deleted!`, result));
 	} catch(err) {
-		console.log("Error of deleting data!", err)
+		console.log("Error of deleting data!", err);
 	};
 };
 
@@ -91,17 +119,20 @@ function patchPost(taskId) {
 			}));
 			xhr.responseType = "json";
 		})
-		.then((result) => console.log(`Data id = ${taskId} were changed!` , result));
+		.then(function(result) {
+			if (Object.entries(result).length !== 0) {
+				console.log(`Data id = ${taskId} were changed!` , result);
+			} else {
+				throw new Error("Error of changing data!");
+			}
+		});
 	} catch(err) {
-		console.log("Error of changing data!", err)
+		console.log("Error of changing data!", err);
 	};
 };
 
-getPost(5)
+getPost(10)
 getPosts()
 addPost()
-	.then((result) => console.log(`Data id = ${post25.id} were posted!` , result))
-	.catch((err) => console.log("Error of posting data!", err));
-
 patchPost(25);
 delPost(25);

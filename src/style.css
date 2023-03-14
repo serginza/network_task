@@ -1,0 +1,19 @@
+body {
+	background-color: PaleGreen;
+}
+
+.img-block {
+	outline: 2px solid red;
+	position: relative;
+	height: 100vh;
+}
+
+.img-block img {
+	display: block;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 10px solid #0b6817;
+	border-radius: 30px;
+    transform: translate(-50%, -50%);
+}

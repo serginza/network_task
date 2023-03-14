@@ -13,7 +13,7 @@ async function getPosts() {
 			const result = await res.json();
 			console.log("All posts are received!" , result);
 		} else {
-			throw new Error("Error");
+			throw new Error("Error of receiving data!");
 		}
 	} catch(err) {
 		console.log("Error of receiving data!", err)
@@ -36,7 +36,7 @@ async function patchPost(taskId) {
 			const result = await res.json();
 			console.log(`Data id = ${taskId} were changed!` , result);
 		} else {
-			throw new Error("Error");
+			throw new Error("Error of changing data!");
 		}
 	} catch(err) {
 		console.log("Error of changing data!", err)
@@ -57,7 +57,7 @@ async function delPost(taskId) {
 			const result = await res.json();
 			console.log(`Data id = ${taskId} were deleted!`, result);
 		} else {
-			throw new Error("Error");
+			throw new Error("Error of deleting data!");
 		}
 	} catch(err) {
 		console.log("Error of deleting data!", err)
@@ -72,10 +72,10 @@ async function getPost(taskId) {
 			const result = await res.json();
 			console.log(`Data id = ${taskId} are received!`, result);
 		} else {
-			throw new Error("Error");
+			throw new Error("Error of receiving requested data!");
 		}
 	} catch(err) {
-		console.log("Error of receiving data!", err)
+		console.log("Error of receiving requested data!", err)
 	};
 };
 
@@ -99,15 +99,15 @@ async function addPost(taskId) {
 			const result = await res.json();
 			console.log(`Data id = ${taskId} were posted!` , result);
 		} else {
-			throw new Error("Error");
+			throw new Error("Error of posting data!");
 		}
 	} catch(err) {
 		console.log("Error of posting data!", err)
 	};
 };
 
-getPost(1);
-//patchPost(25);
+getPost(10);
+patchPost(25);
 delPost(25);
 getPosts();
-//addPost(25);
+addPost(25);
