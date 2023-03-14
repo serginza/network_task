@@ -1,30 +1,45 @@
 const imgUrl = "https://dog.ceo/api/breeds/image/random";
+const imgBlock = document.querySelector(".img-block");
+const imgElement = document.createElement("img");
 
-// Функция запроса и отрисовки картинки
-function getImgPost() {
+//GET-запрос
+async function getImgPost() {
 	try {
-		return new Promise((resolve, reject) => {
-			const xhr = new XMLHttpRequest();
-			xhr.open("GET", imgUrl);
-			xhr.onload = () => resolve(xhr.response);
-			xhr.onerror = () => reject(xhr.status);
-			xhr.send();
-			xhr.responseType = "json";
+		const res = await fetch(imgUrl, {
+			method: "GET",
 		})
-		.then(function(result) {
-			if (Object.entries(result).length !== 0) {
-				const imgBlock = document.querySelector(".img-block");
-				const imgElement = document.createElement('img');
-				imgElement.src = result.message;
-				imgBlock.appendChild(imgElement);
-				console.log("Image-data were received!", result);
-			} else {
-				throw new Error("Error of receiving image-data!");
-			}
-		});
+		if (res.ok) {
+			const result = await res.json();
+			console.log("Image-data were received!" , result);
+			imgElement.src = result.message;
+		} else {
+			throw new Error("Error of receiving image-data!");
+		}
 	} catch(err) {
-		console.log("Error of receiving image-data!", err);
+		console.log("Error of receiving image-data!", err)
 	};
 };
 
-getImgPost()
+//функция создает кнопку и меняет картинку при нажатии
+function addImgBtn() {
+	const btbElement = document.createElement("button");
+
+	btbElement.textContent = "Хочу другого песика!"
+	btbElement.className = "button-elm";
+	imgElement.className = "img-elm";
+	imgBlock.appendChild(imgElement);
+	imgBlock.appendChild(btbElement);
+
+	document.addEventListener("click", (e) => {
+		let el = e.target.closest(".button-elm");
+		if (el) {
+			getImgPost();
+			console.log("New picture uploaded!");
+		};
+	});
+};
+
+//показываем картинку при открытии страницы
+getImgPost();
+//меняем картинку по нажатии на кнопку
+addImgBtn();
