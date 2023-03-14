@@ -75,7 +75,7 @@ async function getPost(taskId) {
 			throw new Error("Error");
 		}
 	} catch(err) {
-		console.log("Error of getting data!", err)
+		console.log("Error of receiving data!", err)
 	};
 };
 
@@ -107,7 +107,7 @@ async function addPost(taskId) {
 };
 
 getPost(1);
-patchPost(25);
+//patchPost(25);
 delPost(25);
 getPosts();
-addPost(25);
+//addPost(25);
