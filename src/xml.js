@@ -1,3 +1,6 @@
+//REST API через API XMLHttpRequest
+//Для запуска скрипта в index.html заменить комментирование с xml.js на "fetch.js" (если необходимо)
+
 const baseUrl = "https://intership-liga.ru";
 
 //объект для запросов

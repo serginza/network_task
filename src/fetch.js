@@ -1,3 +1,6 @@
+//REST API через метод fetch
+//Для запуска скрипта в index.html заменить комментирование с fetch.js на "xml.js" (если необходимо)
+
 const baseUrl = "https://intership-liga.ru";
 
 //GET-запрос
@@ -32,12 +35,14 @@ async function patchPost(taskId) {
 				"Content-Type": "application/json"
 			}
 		});
+
 		if (res.ok) {
 			const result = await res.json();
 			console.log(`Data id = ${taskId} were changed!` , result);
 		} else {
 			throw new Error("Error of changing data!");
 		}
+
 	} catch(err) {
 		console.log("Error of changing data!", err)
 	};
@@ -48,17 +53,18 @@ async function delPost(taskId) {
 	try {
 		const res = await fetch(baseUrl + `/tasks/${taskId}`, {
 			method: 'DELETE',
-			// body: JSON.stringify(post),
 			headers: {
 				"Content-Type": "application/json"
 			}
 		});
+
 		if (res.ok) {
 			const result = await res.json();
 			console.log(`Data id = ${taskId} were deleted!`, result);
 		} else {
 			throw new Error("Error of deleting data!");
 		}
+
 	} catch(err) {
 		console.log("Error of deleting data!", err)
 	};
@@ -67,13 +73,20 @@ async function delPost(taskId) {
 //GET-запрос (один объект)
 async function getPost(taskId) {
 	try {
-		const res = await fetch(baseUrl + `/tasks/${taskId}`)
+		const res = await fetch(baseUrl + `/tasks/${taskId}`, {
+			method: 'GET',
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+
 		if (res.ok) {
 			const result = await res.json();
 			console.log(`Data id = ${taskId} are received!`, result);
 		} else {
 			throw new Error("Error of receiving requested data!");
 		}
+
 	} catch(err) {
 		console.log("Error of receiving requested data!", err)
 	};
@@ -95,12 +108,14 @@ async function addPost(taskId) {
 				"Content-Type": "application/json"
 			}
 		});
+
 		if (res.ok) {
 			const result = await res.json();
 			console.log(`Data id = ${taskId} were posted!` , result);
 		} else {
 			throw new Error("Error of posting data!");
 		}
+
 	} catch(err) {
 		console.log("Error of posting data!", err)
 	};
