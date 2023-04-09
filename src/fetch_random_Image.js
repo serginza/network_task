@@ -4,6 +4,8 @@
 
 const imgUrl = "https://dog.ceo/api/breeds/image/random";
 
+const ERROR_RECEIVING_IMG_DATA_MSG = "Error of receiving img-data!";
+
 //создание и отрисовка кнопки и картинки
 const imgBlock = document.querySelector(".img-block");
 const imgElement = document.createElement("img");
@@ -12,7 +14,7 @@ const btbElement = document.createElement("button");
 btbElement.textContent = "Хочу другого песика!"
 btbElement.className = "button-elm";
 imgBlock.appendChild(imgElement);
-imgBlock.appendChild(btbElement);
+const btn = imgBlock.appendChild(btbElement);
 
 //GET-запрос
 async function getImgPost() {
@@ -26,22 +28,19 @@ async function getImgPost() {
 			console.log("Image-data were received!" , result);
 			imgElement.src = result.message;
 		} else {
-			throw new Error("Error of receiving image-data!");
+			throw new Error(ERROR_RECEIVING_DATA_MSG);
 		}
 
 	} catch(err) {
-		console.log("Error of receiving image-data!", err)
+		console.log(ERROR_RECEIVING_DATA_MSG, err)
 	};
 };
 
 //функция меняет картинку при нажатии на отрисованную кнопку
 function addImgBtn() {
-	document.addEventListener("click", (e) => {
-		let el = e.target.closest(".button-elm");
-		if (el) {
-			getImgPost();
-			console.log("New picture uploaded!");
-		};
+	btn.addEventListener("click", async () => {
+		await getImgPost();
+		console.log("New picture uploaded!");
 	});
 };
 
